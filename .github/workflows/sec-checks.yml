@@ -30,3 +30,12 @@ jobs:
         with:
           name: trivy code report
           path: ./trivy-results.json
+  grype-file-system:
+    name: Grype Scan
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run Grype vulnerability scanner in repo mode
+        uses: anchore/scan-action@v3
