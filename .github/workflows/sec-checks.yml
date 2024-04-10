@@ -41,7 +41,7 @@ jobs:
         uses: anchore/scan-action@v3
         with:
           path: "."
-          output-format: ./results.json
+          output-format: json
           severity-cutoff: medium
           fail-build: true
       - name: Inspect action report
