@@ -48,13 +48,13 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
-          sarif_file: ${{ steps.grype-scan.outputs.sarif }}
+          sarif_file: ./results.sarif
       - name: upload artifact
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: grype-scan-results
-          path: ${{ steps.grype-scan.outputs.sarif }}
+          path: ./results.sarif
       - name: Inspect action SARIF report
         if: always()
-        run: ls
+        run: cat ./results.json
