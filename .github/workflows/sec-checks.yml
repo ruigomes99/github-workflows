@@ -57,4 +57,4 @@ jobs:
           path: ${{ steps.grype-scan.outputs.sarif }}
       - name: Inspect action SARIF report
         if: always()
-        run: cat ${{ steps.grype-scan.outputs.sarif }}
+        run: ls
