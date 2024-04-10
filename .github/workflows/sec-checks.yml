@@ -18,15 +18,38 @@ jobs:
           scan-type: fs
           ignore-unfixed: true
           format: json
-          output: ./trivy-results.json
+          output: ./results.json
           severity: CRITICAL,HIGH,MEDIUM
           exit-code: "1"
       - name: Inspect action report
         if: always()
-        run: cat ./trivy-results.json
+        run: cat ./results.json
       - name: Upload artifact
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
-          name: trivy code report
-          path: ./trivy-results.json
+          name: trivy-scan-report
+          path: ./results.json
+  grype-file-system:
+    name: Grype Scan
+    runs-on: ubuntu-latest
+    permissions: {}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run Grype vulnerability scanner in repo mode
+        uses: anchore/scan-action@v3
+        with:
+          path: "."
+          output-format: json
+          severity-cutoff: medium
+          fail-build: true
+      - name: Inspect action report
+        if: always()
+        run: cat ./results.json
+      - name: Upload artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: grype-scan-results
+          path: ./results.json
